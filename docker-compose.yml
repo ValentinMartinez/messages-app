@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  messages-backend:
+    build: .
+    command: npm start
+    environment:
+      - MONGOURL=mongodb://root:pass@db:27017
+    ports: 
+      - 8000:8000
+    volumes:
+      - ./:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+    container_name: messages-backend
+  db:
+    image: mongo
+    restart: unless-stopped
+    volumes:
+      - mongo:/data/configdb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+
+volumes:
+  node_modules:
+  mongo:
